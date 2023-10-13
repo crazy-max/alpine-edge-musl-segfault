@@ -5,17 +5,17 @@ docker buildx bake
 
 # build binary against linux/arm/v7 (cross-comp)
 # works fine: ./jq: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, Go BuildID=qlVUduOYTGlPYuaGysGc/sXp9hyuDA9hgNmiGfGQo/oMzSOeC0SyFYjfSqsQLt/yoWeDA4bdqEXkPq6SXr4, BuildID[xxHash]=9d1b9d4800ffb8a0, with debug_info, not stripped
-docker buildx bake --set *.platform=linux/arm/v7
+docker buildx bake --set "*.platform=linux/arm/v7"
 
 # build binary against linux/riscv64 (cross-comp)
 # segfault:
 # 3.957 /usr/lib/go/pkg/tool/linux_amd64/link: running riscv64-alpine-linux-musl-clang failed: exit status 1
 # 3.957 clang-16: error: unable to execute command: Segmentation fault
 # 3.957 clang-16: error: linker command failed due to signal (use -v to see invocation)
-docker buildx bake  --set *.platform=linux/riscv64
+docker buildx bake  --set "*.platform=linux/riscv64"
 ```
 
-Debug output of `docker buildx bake  --set *.platform=linux/riscv64` with `-v` passed to `CGO_CFLAGS`:
+Debug output of `docker buildx bake  --set "*.platform=linux/riscv64"` with `-v` passed to `CGO_CFLAGS`:
 
 ```
 #14 [stage-0 6/6] RUN --mount=type=bind,source=.,rw   CGO_ENABLED=1 CGO_CFLAGS='-O2 -g -v' xx-go build -ldflags '-extldflags -static' -o ./jq &&   file ./jq
