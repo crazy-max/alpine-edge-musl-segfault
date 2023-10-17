@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM scratch AS alpine-musl
-FROM --platform=$BUILDPLATFORM alpine:edge AS build-riscv64
+FROM --platform=$BUILDPLATFORM alpine:3.18 AS build-riscv64
 RUN apk add --no-cache file bash clang lld musl-dev pkgconfig git make go
 COPY --link --from=tonistiigi/xx:1.2.1 / /
 ARG TARGETPLATFORM
@@ -13,7 +13,7 @@ RUN --mount=type=bind,source=.,rw \
   CGO_ENABLED=1 xx-go build -ldflags '-extldflags -static' -o ./jq && \
   file ./jq
 
-FROM --platform=$BUILDPLATFORM alpine:edge
+FROM --platform=$BUILDPLATFORM alpine:3.18
 RUN apk add --no-cache file bash clang lld musl-dev pkgconfig git make go
 COPY --link --from=tonistiigi/xx:1.2.1 / /
 ARG TARGETPLATFORM
