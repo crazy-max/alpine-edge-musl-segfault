@@ -10,7 +10,7 @@ RUN xx-apk add --allow-untrusted /root/packages/main/riscv64/*.apk
 RUN xx-apk add gcc jq-dev oniguruma-dev
 WORKDIR /src
 RUN --mount=type=bind,source=.,rw \
-  CGO_ENABLED=1 xx-go build -ldflags '-v -extldflags -static' -o ./jq && \
+  CGO_ENABLED=1 xx-go build -ldflags '-extldflags "-v -static"' -o ./jq && \
   file ./jq
 
 FROM --platform=$BUILDPLATFORM alpine:3.18 AS build-musl-r1
@@ -23,7 +23,7 @@ RUN xx-apk add --allow-untrusted /root/packages/main/riscv64/*.apk
 RUN xx-apk add gcc jq-dev oniguruma-dev
 WORKDIR /src
 RUN --mount=type=bind,source=.,rw \
-  CGO_ENABLED=1 xx-go build -ldflags '-v -extldflags -static' -o ./jq && \
+  CGO_ENABLED=1 xx-go build -ldflags '-v -extldflags "-v -static"' -o ./jq && \
   file ./jq
 
 FROM --platform=$BUILDPLATFORM alpine:3.18
@@ -33,5 +33,5 @@ ARG TARGETPLATFORM
 RUN xx-apk add musl-dev gcc jq-dev oniguruma-dev
 WORKDIR /src
 RUN --mount=type=bind,source=.,rw \
-  CGO_ENABLED=1 xx-go build -ldflags '-extldflags -static' -o ./jq && \
+  CGO_ENABLED=1 xx-go build -ldflags '-extldflags "-v -static"' -o ./jq && \
   file ./jq
