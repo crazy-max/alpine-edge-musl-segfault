@@ -16,3 +16,12 @@ target "build-cross" {
     "linux/s390x"
   ]
 }
+
+target "build-riscv64" {
+  inherits = ["build"]
+  target = "build-riscv64"
+  platforms = ["linux/riscv64"]
+  contexts = {
+    alpine-musl = "../aports-musl/packages"
+  }
+}
