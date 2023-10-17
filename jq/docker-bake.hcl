@@ -4,6 +4,9 @@ group "default" {
 
 target "build" {
   output = ["type=cacheonly"]
+  contexts = {
+    alpine-musl = "../aports-musl/packages"
+  }
 }
 
 target "build-cross" {
@@ -21,7 +24,10 @@ target "build-riscv64" {
   inherits = ["build"]
   target = "build-riscv64"
   platforms = ["linux/riscv64"]
-  contexts = {
-    alpine-musl = "../aports-musl/packages"
-  }
+}
+
+target "build-musl-r1" {
+  inherits = ["build"]
+  target = "build-musl-r1"
+  platforms = ["linux/riscv64"]
 }
